@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react'
-import { type Citation, type ApiResponse } from './types'
+import { Container } from 'react-bootstrap'
+import type { Citation, ApiResponse } from './types'
+import Header from './components/Header'
+import QuoteCard from './components/QuoteCard'
 
 function App() {
   const [quote, setQuote] = useState<Citation | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  const fetchRandomQuote = () => {
+    setQuote(null)
+    setError(null)
     fetch('/api/random')
       .then(res => res.json())
       .then((data: ApiResponse) => {
@@ -15,22 +20,30 @@ function App() {
           setError('Erreur lors de la récupération de la citation')
         }
       })
-      .catch(() => setError('Impossible de contacter l\'API'))
+      .catch(() => setError("Impossible de contacter l'API"))
+  }
+
+  useEffect(() => {
+    fetchRandomQuote()
   }, [])
 
   return (
-    <div>
-      <h1>Kaamelott Quotes</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {quote ? (
-        <div>
-          <p>"{quote.citation}"</p>
-          <p>{quote.infos.personnage} — {quote.infos.saison}, {quote.infos.episode}</p>
-        </div>
-      ) : (
-        !error && <p>Chargement...</p>
-      )}
-    </div>
+    <>
+      <Header onRandomQuote={fetchRandomQuote} />
+      <Container className="mt-4">
+        {error && <p className="text-danger text-center">{error}</p>}
+        {quote ? (
+          <QuoteCard
+            quote={quote.citation}
+            character={quote.infos.personnage}
+            episode={quote.infos.episode}
+            season={quote.infos.saison}
+          />
+        ) : (
+          !error && <p className="text-center text-light">Chargement...</p>
+        )}
+      </Container>
+    </>
   )
 }
 

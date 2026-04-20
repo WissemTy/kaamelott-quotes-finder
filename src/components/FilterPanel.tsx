@@ -84,7 +84,7 @@ function FilterPanel({ show, onHide, onApply }: FilterPanelProps) {
             <Button
               className="w-100"
               onClick={handleApply}
-              style={{ backgroundColor: 'var(--gold)', borderColor: 'var(--gold)', color: '#0a0a14' }}>
+              style={{ backgroundColor: 'var(--gold)', borderColor: 'var(--gold)', color: 'var(--black-text)' }}>
               Appliquer
             </Button>
           </div>

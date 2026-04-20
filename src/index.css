@@ -125,3 +125,7 @@ code {
   font-family: 'Folkard';
   src: url('/folkard.ttf') format('truetype');
 }
+
+.quotes-card:hover {
+  border-color: var(--border-on) !important;
+}

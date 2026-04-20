@@ -10,16 +10,14 @@ interface QuoteCardProps {
 function QuoteCard({ quote, character, episode, season }: QuoteCardProps) {
   return (
     <Card
-      className="h-100 text-center"
+      className="h-100 text-center quotes-card"
       style={{
         backgroundColor: 'var(--bg-card)',
         border: '4px solid var(--border-off)',
         borderRadius: '8px',
         transition: 'border-color 0.3s',
         boxShadow: 'var(--shadow)',
-      }}
-      onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--border-on)')}
-      onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border-off)')}>
+      }}>
 
       <Card.Body className="d-flex flex-column justify-content-between">
         <Card.Text

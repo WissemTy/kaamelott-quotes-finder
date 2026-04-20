@@ -1,6 +1,5 @@
 
 :root {
-  --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
   --border: #e5e4e7;
@@ -18,6 +17,22 @@
   --gold: #D4AF37;
   --bg-navbar: #111425;
   --bg-site: #0f0f1a;
+  --shadow: 0 4px 6px #000000;
+  
+  /* Couleurs Card */
+  --bg-card: #16213e;
+  
+  /* Contour */
+  --border-off: rgba(201, 168, 76, 0.3);
+  --border-on: rgba(218, 173, 49, 0.8);
+
+  /* Texte */
+  --text: #f3f4f6;
+  --sous-text: #888;
+
+  /* Filtres */
+  --filter-bg: #16213e;
+  --filter-panel-bg: #0d0d1a;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
@@ -36,8 +51,6 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
     --bg: #16171d;
     --border: #2e303a;
     --code-bg: #1f2028;
@@ -45,8 +58,6 @@
     --accent-bg: rgba(192, 132, 252, 0.15);
     --accent-border: rgba(192, 132, 252, 0.5);
     --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
   }
 
   #social .button-icon {

@@ -15,7 +15,6 @@ function QuoteCard({ quote, character, episode, season }: QuoteCardProps) {
         backgroundColor: 'var(--bg-card)',
         border: '4px solid var(--border-off)',
         borderRadius: '8px',
-        transition: 'border-color 0.3s',
         boxShadow: 'var(--shadow)',
       }}>
 

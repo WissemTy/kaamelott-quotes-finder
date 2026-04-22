@@ -5,6 +5,8 @@ import Header from './components/Header'
 import QuoteCard from './components/QuoteCard'
 import FilterPanel from './components/FilterPanel'
 import QuoteModal from './components/QuoteModal'
+import useFavorites from './hooks/useFavorites'
+import InfoModal from './components/InfoModal'
 
 const ITEMS_PER_PAGE = 18
 
@@ -14,8 +16,15 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [showFilters, setShowFilters] = useState(false)
-
   const [selectedQuote, setSelectedQuote] = useState<Citation | null>(null)
+  const [showFavorites, setShowFavorites] = useState(false)
+  const [showInfo, setShowInfo] = useState(false)
+  const { favorites, addFavorite, removeFavorite, isFavorite, clearFavorites } = useFavorites()
+  
+  const displayedQuotes = showFavorites ? favorites : quotes
+  const totalPages = Math.ceil(displayedQuotes.length / ITEMS_PER_PAGE)
+  const currentQuotes = displayedQuotes.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
+
 
   const fetchQuotes = (personnage = '', livre = '', auteur = '') => {
     setQuotes([])
@@ -71,48 +80,77 @@ function App() {
     fetchQuotes()
   }, [])
 
-  const totalPages = Math.ceil(quotes.length / ITEMS_PER_PAGE)
-  const currentQuotes = quotes.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
+  const toggleFavorite = (citation: Citation) => {
+    if (isFavorite(citation)) {
+      removeFavorite(citation)
+    } else {
+      addFavorite(citation)
+    }
+  }
 
   return (
     <>
-      <Header onRandomQuote={fetchRandomQuote} onShowFilters={() => setShowFilters(true)} onReset={() => fetchQuotes()} />
+      <InfoModal
+        show={showInfo}
+        onHide={() => setShowInfo(false)}
+        totalQuotes={quotes.length}
+        favoritesCount={favorites.length}
+        onClearFavorites={clearFavorites}
+      />
+      <Header
+        onRandomQuote={fetchRandomQuote}
+        onShowFilters={() => setShowFilters(true)}
+        onReset={() => { setShowFavorites(false); fetchQuotes() }}
+        onShowInfo={() => setShowInfo(true)}
+        onShowFavorites={() => { setShowFavorites(f => !f); setPage(1) }}
+        showFavorites={showFavorites}
+        favoritesCount={favorites.length}
+      />
+      <QuoteModal
+        quote={selectedQuote}
+        onHide={() => setSelectedQuote(null)}
+        isFavorite={selectedQuote ? isFavorite(selectedQuote) : false}
+        onToggleFavorite={toggleFavorite}
+      />
       <FilterPanel
         show={showFilters}
         onHide={() => setShowFilters(false)}
-        onApply={(personnage, livre, auteur) => fetchQuotes(personnage, livre, auteur)}
+        onApply={(personnage, livre, auteur) => { fetchQuotes(personnage, livre, auteur); setShowFavorites(false) }}
       />
 
-      <QuoteModal quote={selectedQuote} onHide={() => setSelectedQuote(null)} />
-
       <Container className="mt-4">
-        {error && (<p className="text-center mt-5" style={{ color: 'var(--gold)', fontSize: '2rem' }}> {error} </p>
-)}
-        {/* {loading && <p className="text-center" style={{ color: 'var(--gold)' }}>Chargement...</p>} Texte de chargement */}
+        {showFavorites && (
+          <p className="text-center mb-4" style={{ color: 'var(--gold)' }}>
+            ★ {favorites.length} citation{favorites.length > 1 ? 's' : ''} en favori
+          </p>
+        )}
+        {error && !showFavorites && (
+          <p className="text-center mt-5" style={{ color: 'var(--gold)', fontSize: '1.2rem' }}> {error} </p>
+        )}
+        {/* {loading && !showFavorites && (<p className="text-center" style={{ color: 'var(--gold)' }}>Chargement...</p>)} */}
+        {showFavorites && favorites.length === 0 && (
+          <p className="text-center mt-5" style={{ color: 'var(--gold)', fontSize: '1.2rem' }}>
+            ☆ Aucun favori pour l'instant...
+          </p>
+        )}
         <Row className="g-4">
-        {currentQuotes.map((q, index) => (
-          <Col
-            key={index}
-            xs={12} md={6} lg={4}
-            onClick={() => setSelectedQuote(q)}
-            style={{ cursor: 'pointer' }}
-          >
-            <QuoteCard
-              quote={q.citation}
-              character={q.infos.personnage}
-              episode={q.infos.episode}
-              season={q.infos.saison}
-            />
-          </Col>
-        ))}
-      </Row>
-
+          {currentQuotes.map((q, index) => (
+            <Col key={index} xs={12} md={6} lg={4} onClick={() => setSelectedQuote(q)} style={{ cursor: 'pointer' }}>
+              <QuoteCard
+                quote={q.citation}
+                character={q.infos.personnage}
+                episode={q.infos.episode}
+                season={q.infos.saison}
+              />
+            </Col>
+          ))}
+        </Row>
         {totalPages > 1 && (
           <div className="d-flex justify-content-center gap-2 my-4">
             <button className="btn btn-outline-warning btn-sm" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>
               Précédent
             </button>
-            <span style={{ color: 'var(--gold)' }}>Page {page} / {totalPages}</span>
+            <span className='color-gold'>Page {page} / {totalPages}</span>
             <button className="btn btn-outline-warning btn-sm" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>
               Suivant
             </button>

@@ -5,19 +5,17 @@ import type { Citation } from '../types'
 interface QuoteModalProps {
   quote: Citation | null
   onHide: () => void
+  isFavorite: boolean
+  onToggleFavorite: (citation: Citation) => void
 }
 
-function QuoteModal({ quote, onHide }: QuoteModalProps) {
+function QuoteModal({ quote, onHide, isFavorite, onToggleFavorite }: QuoteModalProps) {
   const [fantasyMode, setFantasyMode] = useState(false)
 
   const picUrl = quote ? `/api/personnage/${encodeURIComponent(quote.infos.personnage)}/pic` : ''
 
   useEffect(() => {
-    if (quote) {
-      document.title = `Citation de ${quote.infos.personnage}`
-    } else {
-      document.title = 'Kaamelott Quotes'
-    }
+    document.title = quote ? `Citation de ${quote.infos.personnage}` : 'Kaamelott Quotes'
   }, [quote])
 
   return (
@@ -25,12 +23,16 @@ function QuoteModal({ quote, onHide }: QuoteModalProps) {
       <Modal.Body className="p-5 quote-modal-body">
         {quote && (
           <>
-            <div className="d-flex justify-content-end mb-3">
-              <Button
-                size="sm"
+            <div className="d-flex justify-content-end gap-2 mb-4">
+              <Button size="sm"
+                className={`btn-favorite ${isFavorite ? 'is-active' : ''}`}
+                onClick={() => onToggleFavorite(quote)} >
+                {isFavorite ? '★ Favori' : '☆ Ajouter aux favoris'}
+              </Button>
+              
+              <Button size="sm"
                 className={`btn-fantasy ${fantasyMode ? 'fantasy-active' : ''}`}
-                onClick={() => setFantasyMode(!fantasyMode)}
-              >
+                onClick={() => setFantasyMode(!fantasyMode)} >
                 {fantasyMode ? '✦ Mode Médiéval' : '✦ Mode Normal'}
               </Button>
             </div>
@@ -38,11 +40,9 @@ function QuoteModal({ quote, onHide }: QuoteModalProps) {
             <div className="d-flex gap-4 align-items-center">
               <div className="flex-shrink-0">
                 <img
-                  src={picUrl}
-                  alt={quote.infos.personnage}
+                  src={picUrl} alt={quote.infos.personnage}
                   className="quote-portrait"
-                  onError={e => (e.currentTarget.style.display = 'none')}
-                />
+                  onError={e => (e.currentTarget.style.display = 'none')} />
               </div>
 
               <div className="flex-grow-1 text-center">

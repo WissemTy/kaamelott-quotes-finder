@@ -136,12 +136,14 @@ code {
 
 .btn-header:hover {
   transform: translateY(-2px);
+  transform: scale(1.02);
   box-shadow: 0 4px 12px var(--border-off) !important;
 }
 
 .quotes-card:hover {
   border-color: var(--border-on) !important;
   transform: translateY(-4px) translateX(-4px);
+  transform: scale(1.02);
 }
 
 .quotes-card {
@@ -223,4 +225,169 @@ code {
   color: var(--text) !important;
   border-color: var(--border-on) !important;
   box-shadow: none !important;
+}
+
+.btn-github-custom {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: transparent !important;
+  color: var(--gold) !important;
+  border: 1px solid var(--gold) !important;
+  border-radius: 20px !important;
+  padding: 8px 20px !important;
+  text-decoration: none;
+  transition: all 0.3s ease !important;
+}
+
+.btn-github-custom:hover {
+  background-color: var(--gold) !important;
+  color: var(--black-text) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--border-off);
+  transform: scale(1.05);
+}
+
+.btn-danger-custom {
+  background-color: transparent !important;
+  color: #c0392b !important;
+  border: 1px solid #c0392b !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  padding: 8px 16px !important;
+}
+
+.btn-danger-custom:hover {
+  background-color: #c0392b !important;
+  color: #ffffff !important;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
+}
+
+.btn-danger-custom:active {
+  transform: scale(0.95);
+}
+
+.color-gold {
+  color: var(--gold) !important;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-off);
+    border-radius: 8px;
+    min-width: 130px;
+    max-width: 140px;
+    flex: 1;
+}
+
+
+
+.stat-icon {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  color: var(--text);
+}
+
+.stat-icon.gold {
+  color: var(--gold);
+}
+
+.stat-value {
+    color: var(--gold);
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.stat-label {
+    color: var(--sous-text);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-favorite {
+  background-color: transparent !important;
+  border: 1px solid var(--gold) !important;
+  color: var(--gold) !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-favorite.is-active {
+  background-color: var(--gold) !important;
+  color: var(--black-text) !important;
+}
+
+.btn-favorite:hover, .btn-fantasy:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--border-off);
+  opacity: 0.9;
+}
+
+
+/* Style de la Navbar */
+.navbar-custom {
+  background-color: var(--bg-navbar) !important;
+  border-bottom: 1px solid var(--border-off);
+}
+
+.brand-kaamelott {
+  font-family: 'Folkard', fantasy;
+  font-size: 6rem;
+  color: var(--gold) !important;
+  cursor: pointer;
+}
+
+/* Bouton Gold Plein */
+.btn-gold {
+  background-color: var(--gold) !important;
+  border-color: var(--gold) !important;
+  color: var(--black-text) !important;
+  font-weight: 500;
+  transition: all 0.3s ease !important;
+}
+
+/* Bouton Contour Gold */
+.btn-outline-gold {
+  background-color: transparent !important;
+  border-color: var(--gold) !important;
+  color: var(--gold) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* État actif pour le bouton Favoris */
+.btn-outline-gold.active {
+  background-color: var(--gold) !important;
+  color: var(--black-text) !important;
+}
+
+/* Effet Hover global pour les boutons du header */
+.btn-header:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Style de la Navbar */
+.navbar-custom {
+  background-color: var(--bg-navbar) !important;
+  border-bottom: 1px solid var(--border-off);
+}
+
+.brand-kaamelott {
+  font-family: 'Folkard', fantasy;
+  font-size: 1.8rem;
+  color: var(--gold) !important;
+  cursor: pointer;
+}
+
+/* Bouton Gold Plein */
+.btn-gold {
+  background-color: var(--gold) !important;
+  border-color: var(--gold) !important;
+  color: var(--black-text) !important;
+  font-weight: 500;
+  transition: all 0.3s ease !important;
 }

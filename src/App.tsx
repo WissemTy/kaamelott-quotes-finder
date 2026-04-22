@@ -109,11 +109,11 @@ function App() {
 
         {totalPages > 1 && (
           <div className="d-flex justify-content-center gap-2 my-4">
-            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>
+            <button className="btn btn-outline-warning btn-sm" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>
               Précédent
             </button>
             <span style={{ color: 'var(--gold)' }}>Page {page} / {totalPages}</span>
-            <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>
+            <button className="btn btn-outline-warning btn-sm" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>
               Suivant
             </button>
           </div>

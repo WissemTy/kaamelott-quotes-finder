@@ -19,6 +19,7 @@ function FilterPanel({ show, onHide, onApply }: FilterPanelProps) {
   const [personnage, setPersonnage] = useState('')
   const [livre, setLivre] = useState('')
   const [auteur, setAuteur] = useState('')
+  const [search, setSearch] = useState('')
 
   const handleApply = () => {
     onApply(personnage, livre, auteur)
@@ -33,22 +34,41 @@ function FilterPanel({ show, onHide, onApply }: FilterPanelProps) {
     onHide()
   }
 
+  const filteredPersonnages = PERSONNAGES.filter(p =>
+    p.toLowerCase().includes(search.toLowerCase())
+  )
+
   return (
     <Offcanvas show={show} onHide={onHide} placement="end" style={{ backgroundColor: 'var(--filter-panel-bg)' }}>
       <Offcanvas.Header closeButton closeVariant="white">
-        <Offcanvas.Title style={{ color: 'var(--gold)'}}> Filtres </Offcanvas.Title>
+        <Offcanvas.Title style={{ color: 'var(--gold)' }}> Filtres </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <Stack gap={4}>
 
           <Form.Group>
             <Form.Label style={{ color: 'var(--gold)' }}>Personnage</Form.Label>
+
+            <Form.Control
+              type="text"
+              placeholder="Rechercher un personnage..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="mb-2 search-input"
+              style={{
+                backgroundColor: 'var(--filter-bg)',
+                color: 'var(--text)',
+                borderColor: 'var(--border-off)'
+              }}
+            />
             <Form.Select
               value={personnage}
               onChange={e => setPersonnage(e.target.value)}
               style={filtreBoutonStyle}>
               <option value="">Tous les personnages</option>
-              {PERSONNAGES.map(p => (<option key={p} value={p}>{p}</option>))}
+              {filteredPersonnages.map(p => (
+                <option key={p} value={p}>{p}</option>
+              ))}
             </Form.Select>
           </Form.Group>
 
@@ -76,13 +96,13 @@ function FilterPanel({ show, onHide, onApply }: FilterPanelProps) {
 
           <div className="d-flex gap-2">
             <Button
-              className="w-100"
+              className="w-100 btn-header"
               onClick={handleReset}
               style={{ backgroundColor: 'transparent', borderColor: 'var(--gold)', color: 'var(--gold)' }}>
               Réinitialiser
             </Button>
             <Button
-              className="w-100"
+              className="w-100 btn-header"
               onClick={handleApply}
               style={{ backgroundColor: 'var(--gold)', borderColor: 'var(--gold)', color: 'var(--black-text)' }}>
               Appliquer

@@ -4,6 +4,7 @@ import type { Citation, ApiResponse } from './types'
 import Header from './components/Header'
 import QuoteCard from './components/QuoteCard'
 import FilterPanel from './components/FilterPanel'
+import QuoteModal from './components/QuoteModal'
 
 const ITEMS_PER_PAGE = 18
 
@@ -13,6 +14,8 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [showFilters, setShowFilters] = useState(false)
+
+  const [selectedQuote, setSelectedQuote] = useState<Citation | null>(null)
 
   const fetchQuotes = (personnage = '', livre = '', auteur = '') => {
     setQuotes([])
@@ -35,12 +38,13 @@ function App() {
     fetch(url)
       .then(res => res.json())
       .then((data: ApiResponse) => {
-        if (data.status === 1 && Array.isArray(data.citation)) {
+        if (data.status === 1 && Array.isArray(data.citation) && data.citation.length > 0) {
           setQuotes(data.citation)
         } else if (data.status === 1 && data.citation && !Array.isArray(data.citation)) {
           setQuotes([data.citation])
         } else {
-          setError('Aucune citation trouvée')
+          setQuotes([])
+          setError("Aucune citation trouvée pour ces filtres")
         }
       })
       .catch(() => setError("Impossible de contacter l'API"))
@@ -48,14 +52,13 @@ function App() {
   }
 
   const fetchRandomQuote = () => {
-    setQuotes([])
     setError(null)
     setLoading(true)
     fetch('/api/random')
       .then(res => res.json())
       .then((data: ApiResponse) => {
         if (data.status === 1 && data.citation && !Array.isArray(data.citation)) {
-          setQuotes([data.citation])
+          setSelectedQuote(data.citation)
         } else {
           setError('Erreur lors de la récupération de la citation')
         }
@@ -73,27 +76,36 @@ function App() {
 
   return (
     <>
-      <Header onRandomQuote={fetchRandomQuote} onShowFilters={() => setShowFilters(true)} />
+      <Header onRandomQuote={fetchRandomQuote} onShowFilters={() => setShowFilters(true)} onReset={() => fetchQuotes()} />
       <FilterPanel
         show={showFilters}
         onHide={() => setShowFilters(false)}
         onApply={(personnage, livre, auteur) => fetchQuotes(personnage, livre, auteur)}
       />
+
+      <QuoteModal quote={selectedQuote} onHide={() => setSelectedQuote(null)} />
+
       <Container className="mt-4">
-        {error && <p className="text-danger text-center">{error}</p>}
-        {loading && <p className="text-center" style={{ color: 'var(--gold)' }}>Chargement...</p>}
+        {error && (<p className="text-center mt-5" style={{ color: 'var(--gold)', fontSize: '2rem' }}> {error} </p>
+)}
+        {/* {loading && <p className="text-center" style={{ color: 'var(--gold)' }}>Chargement...</p>} Texte de chargement */}
         <Row className="g-4">
-          {currentQuotes.map((q, index) => (
-            <Col key={index} xs={12} md={6} lg={4}>
-              <QuoteCard
-                quote={q.citation}
-                character={q.infos.personnage}
-                episode={q.infos.episode}
-                season={q.infos.saison}
-              />
-            </Col>
-          ))}
-        </Row>
+        {currentQuotes.map((q, index) => (
+          <Col
+            key={index}
+            xs={12} md={6} lg={4}
+            onClick={() => setSelectedQuote(q)}
+            style={{ cursor: 'pointer' }}
+          >
+            <QuoteCard
+              quote={q.citation}
+              character={q.infos.personnage}
+              episode={q.infos.episode}
+              season={q.infos.saison}
+            />
+          </Col>
+        ))}
+      </Row>
 
         {totalPages > 1 && (
           <div className="d-flex justify-content-center gap-2 my-4">

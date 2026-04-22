@@ -35,6 +35,10 @@
   --filter-bg: #16213e;
   --filter-panel-bg: #0d0d1a;
 
+  /* modal */
+  --modal-card: #0d0d1a;
+  --modal-bg: #000;
+
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
@@ -126,6 +130,15 @@ code {
   src: url('/folkard.ttf') format('truetype');
 }
 
+.btn-header {
+  transition: transform 0.2s, box-shadow 0.2s !important;
+}
+
+.btn-header:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--border-off) !important;
+}
+
 .quotes-card:hover {
   border-color: var(--border-on) !important;
   transform: translateY(-4px) translateX(-4px);
@@ -133,4 +146,69 @@ code {
 
 .quotes-card {
   transition: transform 0.3s ease, border-color 0.3s ease !important;
+}
+
+.modal-backdrop.show {
+  opacity: 0.85 !important;
+  background-color: var(--modal-bg) !important;
+}
+
+.quote-modal-body {
+  background-color: var(--modal-card);
+  border: 1px solid var(--border-off);
+  border-radius: 8px;
+  min-height: 400px;
+}
+
+.quote-portrait {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid var(--border-off);
+}
+
+.quote-text {
+  color: var(--text);
+  font-size: 1.2rem;
+  line-height: 1.8;
+  transition: font-family 0.3s, font-size 0.3s;
+}
+
+.quote-character {
+  color: var(--gold);
+  font-size: 1.1rem;
+  transition: font-family 0.3s; 
+}
+
+.quote-meta {
+  color: var(--sous-text);
+  font-size: 0.85rem;
+}
+
+.fantasy-font {
+  font-family: 'Folkard', fantasy !important;
+}
+
+.btn-fantasy {
+  border-color: var(--gold) !important;
+  background-color: transparent !important;
+  color: var(--gold) !important;
+  transition: background-color 0.3s, color 0.3s !important;
+}
+
+.btn-fantasy:focus,
+.btn-fantasy:active,
+.btn-fantasy:focus-visible {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.btn-fantasy.fantasy-active {
+  background-color: var(--gold) !important;
+  color: var(--black-text) !important;
+}
+
+.text-gold {
+  color: var(--gold) !important;
 }

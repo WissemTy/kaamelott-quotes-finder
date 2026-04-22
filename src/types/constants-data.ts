@@ -15,7 +15,7 @@ export const PERSONNAGES = [
 
 export const AUTEURS = [
   'Alexandre Astier',
-  'Alexandre Astier - Simon Astier',
+  // 'Simon Astier', // dont work with the API for some reason
   'Fabien Rault',
   'Lionnel Astier',
   'Nicolas Gabion'

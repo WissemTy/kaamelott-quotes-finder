@@ -13,7 +13,7 @@ const ITEMS_PER_PAGE = 18
 function App() {
   const [quotes, setQuotes] = useState<Citation[]>([])
   const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [showFilters, setShowFilters] = useState(false)
   const [selectedQuote, setSelectedQuote] = useState<Citation | null>(null)

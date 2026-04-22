@@ -12,6 +12,14 @@ function QuoteModal({ quote, onHide }: QuoteModalProps) {
 
   const picUrl = quote ? `/api/personnage/${encodeURIComponent(quote.infos.personnage)}/pic` : ''
 
+  useEffect(() => {
+    if (quote) {
+      document.title = `Citation de ${quote.infos.personnage}`
+    } else {
+      document.title = 'Kaamelott Quotes'
+    }
+  }, [quote])
+
   return (
     <Modal show={!!quote} onHide={onHide} centered size="xl" contentClassName="border-0 bg-transparent">
       <Modal.Body className="p-5 quote-modal-body">
